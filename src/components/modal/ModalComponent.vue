@@ -51,6 +51,7 @@ onMounted(() => {
 
 function getLottoResult() {
   let curremtCount = 0;
+  let bounsCount = 0;
   for (let i = 0; lottoNumbers.value.length > i; i++) {
     curremtCount = 0;
     for (let j = 0; lottoNumbers.value[i].length > j; j++) {

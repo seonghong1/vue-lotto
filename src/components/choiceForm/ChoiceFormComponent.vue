@@ -19,6 +19,7 @@
       </ul>
       <p class="sub-comment">번호를 6개 선택해주세요! (중복x)</p>
       <form @submit.prevent="submitChoice">
+        <input type="number" v-model="bonusNumber" min="1" max="45" />
         <button>결과 확인하기</button>
       </form>
     </div>
@@ -36,9 +37,11 @@ import { useModalStore } from "../../store/modules/ModalStore";
 
 const store = useChoiceNumberStore();
 const modalStore = useModalStore();
-let choiceNumberList: number[] = reactive([]);
 const Lottostore = useLottoNumberStore();
+
+let choiceNumberList: number[] = reactive([]);
 const numberBtnDom = ref(null);
+const bonusNumber = ref("");
 
 const { lottoNumbers } = storeToRefs(Lottostore);
 const { choiceNumber } = storeToRefs(store);
@@ -61,9 +64,13 @@ function submitChoice(e) {
   if (choiceNumberList.length <= 5) {
     alert("숫자를 6개 선택해주세요 !");
   } else {
-    store.setChoiceNumber(choiceNumberList);
-    modalStore.mountModal();
-    console.log("modalState :", modalStore.modalState);
+    if (String(bonusNumber.value).length > 0) {
+      choiceNumberList.push(Number(bonusNumber.value));
+      store.setChoiceNumber(choiceNumberList.sort((a, b) => a - b));
+      modalStore.mountModal();
+    } else {
+      alert("보너스 숫자를 입력해주세요 !");
+    }
   }
 }
 function reset() {
