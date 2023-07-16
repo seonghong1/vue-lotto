@@ -1,15 +1,15 @@
-https://github.com/Anjiwoong/react-lotto
+## 배포링크 : https://vue-lotto.vercel.app/
 
-<!--
-****최종 index파일에서 v-show 수정후, ********
-****modalcompoent에서 onMount()매서드에 getLottoResult함수 추가하기***********,
-*******선택번호 중복 수정 ************,
-***********결과 모달 li하드코딩 -> 반복문 수정(기본 컨텐츠는 더미데이터),***************
-***********구매후 구매영역 비활성화************,
-************로또 재시작 기능 구현( pinia options reset매서드 이용)***************
-랜덤번호 중복 수정,
-위의 내용 모두 수정 후에 기본 css정리좀 하자;;(******전역 초기화******, 컴포넌트 스타일링)
--->
+#### 참고 : https://github.com/Anjiwoong/react-lotto
+
+#### 필요한 작업들 . . .
+
+```
+ - 코드 리펙토링(함수 재사용, 사용하지 않는 모듈 제거 . . .)
+ - 로또 랜덤번호 생성시 중복 제거
+ - li 클릭시 산발적으로 active 적용 안됨
+ - 보너스 번호 기능 추가
+```
 
 # vue-lotto
 
@@ -36,7 +36,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
