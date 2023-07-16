@@ -1,11 +1,13 @@
 import { defineStore } from "pinia";
 
+interface ModalState {
+  modalState: boolean;
+}
+
 export const useModalStore = defineStore("modal", {
-  state: () => {
-    return {
-      modalState: false as boolean,
-    };
-  },
+  state: (): ModalState => ({
+    modalState: false,
+  }),
   actions: {
     mountModal() {
       this.modalState = true;

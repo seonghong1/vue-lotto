@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <h1>구입할 금액</h1>
+  <div :class="store.lottoNumbers.length > 0 ? 'hide' : 'show'">
+    <h1>동행복권</h1>
     <form @submit.prevent="setBuyCount">
-      <input type="number" v-model="inputValue" step="1000" />
-      <button>확인</button>
+      <input type="number" v-model="inputValue" step="1000" min="0" />
+      <button>구매하기</button>
     </form>
+    <p>1,000원 단위로 구매 가능</p>
   </div>
 </template>
 <script setup lang="ts">
@@ -25,14 +26,59 @@ function setBuyCount() {
   let lottoCountArr: number[][] = [];
 
   for (let i = 0; i < lottoCount; i++) {
-    let current = [];
+    let currentList = [];
     for (let j = 0; j < 6; j++) {
-      current.push(randomNumber());
+      currentList.push(randomNumber());
     }
-    lottoCountArr.push(current);
+    lottoCountArr.push(currentList.sort((a, b) => a - b));
   }
-  console.log("lottoCountArr : ", lottoCountArr);
   store.setLottoNumbers(lottoCountArr);
+  inputValue.value = 0;
 }
 </script>
-<style></style>
+<style lang="scss" scoped>
+.hide {
+  opacity: 0.5;
+  pointer-events: none;
+}
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    font-size: 25px;
+    font-weight: 900;
+    color: red;
+    margin-bottom: 15px;
+  }
+  form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    input {
+      height: 40px;
+      border-radius: 10px;
+      padding-left: 10px;
+      border: 2px solid red;
+      outline: none;
+      box-sizing: border-box;
+      background-color: transparent;
+    }
+    button {
+      height: 40px;
+      padding: 0 10px;
+      color: white;
+      border-radius: 10px;
+      background-color: red;
+      border: none;
+    }
+  }
+}
+p {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+  transform: translateX(-55px);
+}
+</style>
