@@ -1,14 +1,14 @@
 ## 배포링크 : https://vue-lotto.vercel.app/
 
+#### 컨벤션 : https://velog.io/@javascccccccc/%EC%BB%A8%EB%B2%A4%EC%85%98
+
 #### 참고 : https://github.com/Anjiwoong/react-lotto
 
 #### 필요한 작업들 . . .
 
 ```
- - 코드 리펙토링(함수 재사용, 사용하지 않는 모듈 제거 . . .)
- - 로또 랜덤번호 생성시 중복 제거 / while !배열.includes(랜덤번호생성())
- - li 클릭시 산발적으로 active 적용 안됨
- - 보너스 번호 기능 추가 / 작업중 . . .
+ - 컨벤션 수정 진행중, 컴포넌트 경로 수정 필요(절대경로) / done
+ - 함수 최적화 / done
 ```
 
 # vue-lotto
