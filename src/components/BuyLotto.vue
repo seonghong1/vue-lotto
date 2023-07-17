@@ -9,26 +9,36 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+// store
 import { useLottoNumberStore } from "../../store/modules/LottoNumberStore";
 
-const store = useLottoNumberStore();
+// module
+import { ref } from "vue";
 
+// variable
+const store = useLottoNumberStore();
 const inputValue = ref(0);
 
+//util
 function randomNumber(): number {
   const result = Math.floor(Math.random() * 44 + 1);
   return result;
 }
 
+// function
 function setBuyCount() {
   const lottoCount = inputValue.value * 0.001;
   let lottoCountArr: number[][] = [];
 
   for (let i = 0; i < lottoCount; i++) {
-    let currentList = [];
+    let currentList: number[] = [];
     for (let j = 0; j < 6; j++) {
-      currentList.push(randomNumber());
+      while (currentList.length < 6) {
+        let currentNumber = randomNumber();
+        if (!currentList.includes(currentNumber)) {
+          currentList.push(currentNumber);
+        }
+      }
     }
     lottoCountArr.push(currentList.sort((a, b) => a - b));
   }
@@ -82,3 +92,4 @@ p {
   transform: translateX(-55px);
 }
 </style>
+../../store/modules/lottoNumbers

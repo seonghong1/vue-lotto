@@ -13,7 +13,7 @@
     <ul>
       <li
         :class="checkState ? 'show' : 'hide'"
-        v-for="(lottoNumber, i) in lottoNumbers"
+        v-for="(lottoNumber, i) in lottoNumberArr"
         :key="i"
       >
         {{ lottoNumber.join(", ") }}
@@ -22,29 +22,34 @@
   </div>
 </template>
 <script setup lang="ts">
-//
-import { ref, onMounted } from "vue";
+// store
+import { useLottoNumbersStore } from "@/store/modules/lottoNumbers";
+
+// module
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useLottoNumberStore } from "@/store/modules/LottoNumberStore";
 
-const store = useLottoNumberStore();
+// useStore
+const store = useLottoNumbersStore();
 
-const { lottoNumbers } = storeToRefs(store);
+// state
+const { lottoNumberArr } = storeToRefs(store);
 const checkState = ref(false);
 
+// function
 function changeIsChecked() {
   checkState.value = !checkState.value;
-  console.log(checkState.value);
 }
 </script>
 <style lang="scss" scoped>
 .wrap {
   border: 2px solid red;
   border-radius: 30px;
+  justify-content: space-between;
   padding: 10px 20px;
 
   display: flex;
-  justify-content: space-between;
+
   width: 70%;
   margin: 20px auto;
 }
@@ -90,10 +95,10 @@ h2 {
   }
 }
 ul {
+  flex-direction: column;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  flex-direction: column;
   gap: 10px;
   li {
     color: red;

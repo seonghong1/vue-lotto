@@ -9,7 +9,7 @@
       <ul>
         <li
           ref="numberBtnDom"
-          v-for="a in array"
+          v-for="a in BTN_COUNT_ARRAY"
           class="false"
           :key="a"
           @click="addChoiceNumber($event, a)"
@@ -27,13 +27,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import ModalComponent from "../../components/modal/ModalComponent.vue";
-import array from "../../assets/lotoNumberData";
+import ModalComponent from "@/components/modal/ModalComponent.vue";
+import { BTN_COUNT_ARRAY } from "@/constants/lotoNumberData";
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useChoiceNumberStore } from "../../store/modules/ChoiceNumberStore";
-import { useLottoNumberStore } from "../../store/modules/LottoNumberStore";
-import { useModalStore } from "../../store/modules/ModalStore";
+import { useChoiceNumberStore } from "@/store/modules/myLotto";
+import { useLottoNumberStore } from "@/store/modules/LottoNumberStore";
+import { useModalStore } from "@/store/modules/ModalStore";
 
 const store = useChoiceNumberStore();
 const modalStore = useModalStore();
@@ -41,18 +41,20 @@ const Lottostore = useLottoNumberStore();
 
 let choiceNumberList: number[] = reactive([]);
 const numberBtnDom = ref(null);
-const bonusNumber = ref("");
+const bonusNumber = ref("" as string | number);
 
 const { lottoNumbers } = storeToRefs(Lottostore);
 const { choiceNumber } = storeToRefs(store);
 const { modalState } = storeToRefs(modalStore);
 
-function addChoiceNumber(e, num: number) {
+function addChoiceNumber(e: MouseEvent, num: number) {
+  const target = e.target as HTMLLIElement;
+
   if (choiceNumberList.length < 6) {
     if (!choiceNumberList.includes(num)) {
       choiceNumberList.push(num);
       choiceNumberList.sort((a, b) => a - b);
-      e.target.className = "true";
+      target.className = "true";
     } else {
       alert("이미 선택된 번호입니다 ~~");
     }
@@ -60,13 +62,13 @@ function addChoiceNumber(e, num: number) {
     alert("6개 모두 선택해주셨습니다 !");
   }
 }
-function submitChoice(e) {
+function submitChoice() {
   if (choiceNumberList.length <= 5) {
     alert("숫자를 6개 선택해주세요 !");
   } else {
-    if (String(bonusNumber.value).length > 0) {
-      choiceNumberList.push(Number(bonusNumber.value));
-      store.setChoiceNumber(choiceNumberList.sort((a, b) => a - b));
+    if (bonusNumber.value) {
+      choiceNumberList.push(bonusNumber.value as number);
+      store.setChoiceNumber(choiceNumberList);
       modalStore.mountModal();
     } else {
       alert("보너스 숫자를 입력해주세요 !");
@@ -155,14 +157,16 @@ ul {
 }
 .sub-comment {
   text-align: right;
-  font-size: 14px;
   padding-right: 15px;
   margin-top: 5px;
+  font-size: 14px;
   opacity: 0.9;
 }
 form {
   margin-top: 20px;
+
   display: flex;
+
   justify-content: center;
   button {
     cursor: pointer;

@@ -1,4 +1,4 @@
-import { useModalStore } from "../store/modules/ModalStore";
+import { useModalStore } from "../store/modules/modal";
 
 const store = useModalStore();
 

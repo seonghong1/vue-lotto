@@ -35,40 +35,45 @@ import { useChoiceNumberStore } from "../../store/modules/ChoiceNumberStore";
 import { useLottoNumberStore } from "../../store/modules/LottoNumberStore";
 import { reactive, onMounted } from "vue";
 import modalTableData from "../../assets/modalTableData";
+
 const ModalStore = useModalStore();
 const ChoiceNumberStore = useChoiceNumberStore();
 const LottoNumberStore = useLottoNumberStore();
 
 const { choiceNumber } = storeToRefs(ChoiceNumberStore);
 const { lottoNumbers } = storeToRefs(LottoNumberStore);
-const { modalState } = storeToRefs(ModalStore);
 
-let lottoResult = reactive({ six: 0, five: 0, four: 0, three: 0, other: 0 });
+const lottoResult = reactive({ six: 0, five: 0, four: 0, three: 0, other: 0 });
 
 onMounted(() => {
   getLottoResult();
 });
 
 function getLottoResult() {
-  let curremtCount = 0;
-  let bounsCount = 0;
+  let currentCount = 0;
+  let bonusNumber = 0;
   for (let i = 0; lottoNumbers.value.length > i; i++) {
-    curremtCount = 0;
+    bonusNumber = 0;
+    currentCount = 0;
     for (let j = 0; lottoNumbers.value[i].length > j; j++) {
       if (lottoNumbers.value[i].includes(choiceNumber.value[j])) {
-        curremtCount += 1;
+        currentCount += 1;
+      }
+      if (lottoNumbers.value[i].includes(choiceNumber.value[6])) {
+        bonusNumber++;
       }
     }
-    if (curremtCount === 6) {
-      lottoResult.six = lottoResult.six + 1;
-    } else if (curremtCount === 5) {
-      lottoResult.five = lottoResult.five + 1;
-    } else if (curremtCount === 4) {
-      lottoResult.four = lottoResult.four + 1;
-    } else if (curremtCount === 3) {
-      lottoResult.three = lottoResult.three + 1;
+
+    if (currentCount === 6) {
+      lottoResult.six += 1;
+    } else if (currentCount === 5 && bonusNumber > 0) {
+      lottoResult.five += 1;
+    } else if (currentCount === 4) {
+      lottoResult.four += 1;
+    } else if (currentCount === 3) {
+      lottoResult.three += 1;
     } else {
-      lottoResult.other = lottoResult.other + 1;
+      lottoResult.other += 1;
     }
   }
 }
@@ -102,9 +107,6 @@ function resetLotto() {
     z-index: 10;
   }
   .modalInner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     width: 500px;
     height: 600px;
@@ -117,6 +119,9 @@ function resetLotto() {
     align-items: center;
     box-sizing: border-box;
     padding: 30px 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
   }
   .title {
     padding: 0 40px;
@@ -173,3 +178,5 @@ function resetLotto() {
   }
 }
 </style>
+../../store/modules/myNumber ../../store/modules/modal
+../../store/modules/lottoNumbers

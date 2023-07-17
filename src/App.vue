@@ -7,17 +7,15 @@
 </template>
 
 <script setup lang="ts">
-import BuyFormComponent from "./components/buyForm/BuyFormComponent.vue";
-import RandomNumbersComponent from "./components/randomNumbersForm/RandomNumbersComponent.vue";
-import ChoiceFormComponent from "./components/choiceForm/ChoiceFormComponent.vue";
+import BuyFormComponent from "@/components/buyForm/BuyFormComponent.vue";
+import RandomNumbersComponent from "@/components/randomNumbersForm/RandomNumbersComponent.vue";
+import ChoiceFormComponent from "@/components/choiceForm/ChoiceFormComponent.vue";
 
-import { useLottoNumberStore } from "@/store/modules/LottoNumberStore";
+import { lottoNumberArr } from "@/store/modules/lottoNumbers";
 
 import { storeToRefs } from "pinia";
 import "./assets/scss/_reset.scss";
 
-const LottoNumberStore = useLottoNumberStore();
+const LottoNumberStore = useLottoNumbersStore();
 const { lottoNumbers } = storeToRefs(LottoNumberStore);
 </script>
-
-<style></style>
