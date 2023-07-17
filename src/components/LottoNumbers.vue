@@ -24,7 +24,6 @@
 <script setup lang="ts">
 // store
 import { useLottoNumbersStore } from "@/store/modules/lottoNumbers";
-
 // module
 import { ref } from "vue";
 import { storeToRefs } from "pinia";

@@ -4,7 +4,6 @@ export const useLottoNumbersStore = defineStore("lottoNumberArr", {
   state: () => ({
     lottoNumberArr: [] as number[][],
   }),
-  getters: {},
   actions: {
     setLottoNumbers(lottoNumbers: number[][]) {
       this.lottoNumberArr = lottoNumbers;

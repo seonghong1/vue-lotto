@@ -1,21 +1,21 @@
 <template>
-  <h1></h1>
-  <!--v-if / 컴포넌트에서-->
-  <BuyFormComponent />
-  <RandomNumbersComponent v-if="lottoNumbers.length > 0" />
-  <ChoiceFormComponent v-if="lottoNumbers.length > 0" />
+  <BuyLottoComp />
+  <LottoNumbersComp v-if="lottoNumberArr.length > 0" />
+  <ChoiceLottoComp v-if="lottoNumberArr.length > 0" />
 </template>
 
 <script setup lang="ts">
-import BuyFormComponent from "@/components/buyForm/BuyFormComponent.vue";
-import RandomNumbersComponent from "@/components/randomNumbersForm/RandomNumbersComponent.vue";
-import ChoiceFormComponent from "@/components/choiceForm/ChoiceFormComponent.vue";
-
-import { lottoNumberArr } from "@/store/modules/lottoNumbers";
-
+// component
+import BuyLottoComp from "@/components/BuyLotto.vue";
+import LottoNumbersComp from "@/components/LottoNumbers.vue";
+import ChoiceLottoComp from "@/components/ChoiceLotto.vue";
+// module
 import { storeToRefs } from "pinia";
-import "./assets/scss/_reset.scss";
+import { useLottoNumbersStore } from "@/store/modules/lottoNumbers";
+// assets
+import "@/assets/scss/_reset.scss";
 
+// store
 const LottoNumberStore = useLottoNumbersStore();
-const { lottoNumbers } = storeToRefs(LottoNumberStore);
+const { lottoNumberArr } = storeToRefs(LottoNumberStore);
 </script>

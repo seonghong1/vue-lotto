@@ -12,7 +12,7 @@
         <ul>
           <li
             :class="lottoResult[data[2]] > 0 ? 'active' : ''"
-            v-for="(data, i) in modalTableData"
+            v-for="(data, i) in MODAL_TABLE_ARRAY"
             :key="i"
           >
             <h4>{{ data[0] }}</h4>
@@ -29,37 +29,46 @@
   </div>
 </template>
 <script setup lang="ts">
+// store
+import { useModalStore } from "@/store/modules/modal";
+import { useMyNumbersStore } from "@/store/modules/myNumbers";
+import { useLottoNumbersStore } from "@/store/modules/lottoNumbers";
+//type
+import { ModalTable } from "@/types/modal-table.type";
+// constants
+import { MODAL_TABLE_ARRAY } from "@/constants/modalTableData";
+// modules
 import { storeToRefs } from "pinia";
-import { useModalStore } from "../../store/modules/ModalStore";
-import { useChoiceNumberStore } from "../../store/modules/ChoiceNumberStore";
-import { useLottoNumberStore } from "../../store/modules/LottoNumberStore";
 import { reactive, onMounted } from "vue";
-import modalTableData from "../../assets/modalTableData";
 
+// store
 const ModalStore = useModalStore();
-const ChoiceNumberStore = useChoiceNumberStore();
-const LottoNumberStore = useLottoNumberStore();
+const MyNumbersStore = useMyNumbersStore();
+const LottoNumberStore = useLottoNumbersStore();
 
-const { choiceNumber } = storeToRefs(ChoiceNumberStore);
-const { lottoNumbers } = storeToRefs(LottoNumberStore);
-
-const lottoResult = reactive({ six: 0, five: 0, four: 0, three: 0, other: 0 });
-
-onMounted(() => {
-  getLottoResult();
+// state
+const { myNumberArr } = storeToRefs(MyNumbersStore);
+const { lottoNumberArr } = storeToRefs(LottoNumberStore);
+const lottoResult: ModalTable = reactive({
+  six: 0,
+  five: 0,
+  four: 0,
+  three: 0,
+  other: 0,
 });
 
+// utils
 function getLottoResult() {
   let currentCount = 0;
   let bonusNumber = 0;
-  for (let i = 0; lottoNumbers.value.length > i; i++) {
+  for (let i = 0; lottoNumberArr.value.length > i; i++) {
     bonusNumber = 0;
     currentCount = 0;
-    for (let j = 0; lottoNumbers.value[i].length > j; j++) {
-      if (lottoNumbers.value[i].includes(choiceNumber.value[j])) {
+    for (let j = 0; lottoNumberArr.value[i].length > j; j++) {
+      if (lottoNumberArr.value[i].includes(myNumberArr.value[j])) {
         currentCount += 1;
       }
-      if (lottoNumbers.value[i].includes(choiceNumber.value[6])) {
+      if (lottoNumberArr.value[i].includes(myNumberArr.value[6])) {
         bonusNumber++;
       }
     }
@@ -78,13 +87,18 @@ function getLottoResult() {
   }
 }
 
+// function
+onMounted(() => {
+  getLottoResult();
+});
+
 function unMountModal() {
   ModalStore.unMountModal();
 }
 
 function resetLotto() {
   ModalStore.$reset();
-  ChoiceNumberStore.$reset();
+  MyNumbersStore.$reset();
   LottoNumberStore.$reset();
 }
 </script>

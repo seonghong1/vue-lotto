@@ -6,7 +6,6 @@ export const useMyNumbersStore = defineStore("myNumbers", {
       myNumberArr: [] as number[],
     };
   },
-  getters: {},
   actions: {
     setChoiceNumber(myNumbers: number[]) {
       this.myNumberArr = myNumbers;

@@ -27,29 +27,30 @@
   </div>
 </template>
 <script setup lang="ts">
+// components
 import ModalComponent from "@/components/modal/ModalComponent.vue";
-import { BTN_COUNT_ARRAY } from "@/constants/lotoNumberData";
+// store
+import { useMyNumbersStore } from "@/store/modules/myNumbers";
+import { useModalStore } from "@/store/modules/modal";
+// modules
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useChoiceNumberStore } from "@/store/modules/myLotto";
-import { useLottoNumberStore } from "@/store/modules/LottoNumberStore";
-import { useModalStore } from "@/store/modules/ModalStore";
+//constants
+import { BTN_COUNT_ARRAY } from "@/constants/lotoNumberData";
 
-const store = useChoiceNumberStore();
+// store
+const MyNumbersStore = useMyNumbersStore();
 const modalStore = useModalStore();
-const Lottostore = useLottoNumberStore();
 
+//state
+const { modalState } = storeToRefs(modalStore);
 let choiceNumberList: number[] = reactive([]);
 const numberBtnDom = ref(null);
 const bonusNumber = ref("" as string | number);
 
-const { lottoNumbers } = storeToRefs(Lottostore);
-const { choiceNumber } = storeToRefs(store);
-const { modalState } = storeToRefs(modalStore);
-
+// function
 function addChoiceNumber(e: MouseEvent, num: number) {
   const target = e.target as HTMLLIElement;
-
   if (choiceNumberList.length < 6) {
     if (!choiceNumberList.includes(num)) {
       choiceNumberList.push(num);
@@ -62,24 +63,25 @@ function addChoiceNumber(e: MouseEvent, num: number) {
     alert("6개 모두 선택해주셨습니다 !");
   }
 }
+
 function submitChoice() {
   if (choiceNumberList.length <= 5) {
     alert("숫자를 6개 선택해주세요 !");
   } else {
     if (bonusNumber.value) {
       choiceNumberList.push(bonusNumber.value as number);
-      store.setChoiceNumber(choiceNumberList);
+      MyNumbersStore.setChoiceNumber(choiceNumberList);
       modalStore.mountModal();
     } else {
       alert("보너스 숫자를 입력해주세요 !");
     }
   }
 }
+
 function reset() {
   document.querySelectorAll("li").forEach((i) => {
     i.className = "false";
   });
-
   choiceNumberList.splice(0, choiceNumberList.length);
 }
 </script>

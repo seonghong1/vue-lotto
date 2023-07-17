@@ -1,5 +1,5 @@
 <template>
-  <div :class="store.lottoNumbers.length > 0 ? 'hide' : 'show'">
+  <div :class="store.lottoNumberArr.length > 0 ? 'hide' : 'show'">
     <h1>동행복권</h1>
     <form @submit.prevent="setBuyCount">
       <input type="number" v-model="inputValue" step="1000" min="0" />
@@ -10,13 +10,12 @@
 </template>
 <script setup lang="ts">
 // store
-import { useLottoNumberStore } from "../../store/modules/LottoNumberStore";
-
+import { useLottoNumbersStore } from "@/store/modules/lottoNumbers";
 // module
 import { ref } from "vue";
 
-// variable
-const store = useLottoNumberStore();
+// state
+const store = useLottoNumbersStore();
 const inputValue = ref(0);
 
 //util
